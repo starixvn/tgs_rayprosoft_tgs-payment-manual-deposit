@@ -15,10 +15,12 @@ namespace TGS.Payment.ManualDeposit
 
 		public async ValueTask<string> DepositAsync(string subject, decimal amount, string? applyInfo)
 		{
-			if (subject == "tgs.payment.manual")
+			if (subject == "tgs.payment.manual.deposit")
 				return applyInfo ?? string.Empty;
 			else
 				return await _paymentClient.DepositAsync(subject, amount, applyInfo).ConfigureAwait(false);
 		}
+
+		public ValueTask<string> WithdrawAsync(string subject, decimal amount, string? applyInfo) => throw new NotImplementedException();
 	}
 }
