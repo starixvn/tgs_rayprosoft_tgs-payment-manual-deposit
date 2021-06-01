@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tgs.Payment;
+using Tgs.Payment.Clients;
 
 namespace TGS.Payment.ManualDeposit
 {
@@ -21,6 +21,7 @@ namespace TGS.Payment.ManualDeposit
 				return await _paymentClient.DepositAsync(subject, amount, applyInfo).ConfigureAwait(false);
 		}
 
-		public ValueTask<string> WithdrawAsync(string subject, decimal amount, string? applyInfo) => throw new NotImplementedException();
+		public ValueTask<string> WithdrawAsync(string subject, decimal amount, string? applyInfo)
+			=> throw new NotImplementedException();
 	}
 }

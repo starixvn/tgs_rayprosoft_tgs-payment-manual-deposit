@@ -15,6 +15,6 @@
 
 	<ItemGroup>
 	  <PackageReference Include="TGS.Core.Infrastructures.Json" Version="0.0.1" />
-	  <PackageReference Include="Tgs.Payment" Version="0.0.4-alpha" />
+	  <PackageReference Include="Tgs.Payment.Client" Version="0.1.0-alpha" />
 	</ItemGroup>
 </Project>
