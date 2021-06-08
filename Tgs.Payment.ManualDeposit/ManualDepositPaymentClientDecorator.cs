@@ -13,6 +13,9 @@ namespace TGS.Payment.ManualDeposit
 			_paymentClient = paymentClient ?? throw new ArgumentNullException(nameof(paymentClient));
 		}
 
+		public ValueTask<string> AskAsync(string subject, string requestInfo)
+			=> throw new NotImplementedException();
+
 		public async ValueTask<string> DepositAsync(string subject, decimal amount, string? applyInfo)
 		{
 			if (subject == "tgs.payment.manual.deposit")
