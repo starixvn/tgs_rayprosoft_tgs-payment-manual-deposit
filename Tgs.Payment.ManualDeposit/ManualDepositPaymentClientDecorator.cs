@@ -13,7 +13,7 @@ namespace TGS.Payment.ManualDeposit
 			_paymentClient = paymentClient ?? throw new ArgumentNullException(nameof(paymentClient));
 		}
 
-		public ValueTask ApproveDepositAsync(Guid formId) => throw new NotImplementedException();
+		public ValueTask ApproveDepositAsync(Guid formId, Guid brandId) => throw new NotImplementedException();
 
 		public ValueTask<string> AskAsync(string subject, string requestInfo)
 			=> throw new NotImplementedException();
