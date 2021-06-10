@@ -13,10 +13,11 @@ namespace TGS.Payment.ManualDeposit
 			_paymentClient = paymentClient ?? throw new ArgumentNullException(nameof(paymentClient));
 		}
 
-		public ValueTask ApproveDepositAsync(Guid formId, Guid brandId) => throw new NotImplementedException();
+		public ValueTask ApproveDepositAsync(Guid formId, Guid brandId)
+			=> _paymentClient.ApproveDepositAsync(formId, brandId);
 
 		public ValueTask<string> AskAsync(string subject, string requestInfo)
-			=> throw new NotImplementedException();
+			=> _paymentClient.AskAsync(subject, requestInfo);
 
 		public async ValueTask<string> DepositAsync(string subject, decimal amount, string? applyInfo)
 		{
@@ -27,6 +28,6 @@ namespace TGS.Payment.ManualDeposit
 		}
 
 		public ValueTask<string> WithdrawAsync(string subject, decimal amount, string? applyInfo)
-			=> throw new NotImplementedException();
+			=> _paymentClient.WithdrawAsync(subject, amount, applyInfo);
 	}
 }
