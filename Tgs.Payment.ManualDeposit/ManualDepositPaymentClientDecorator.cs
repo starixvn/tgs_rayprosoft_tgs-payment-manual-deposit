@@ -27,6 +27,18 @@ namespace TGS.Payment.ManualDeposit
 				return await _paymentClient.DepositAsync(subject, amount, applyInfo).ConfigureAwait(false);
 		}
 
+		public ValueTask EmitDepositFormCreatedEventAsync(Guid formId, Guid brandId)
+			=> _paymentClient.EmitDepositFormCreatedEventAsync(formId, brandId);
+
+		public ValueTask EmitDepositFormStatusChangedEventAsync(Guid formId, Guid brandId)
+			=> _paymentClient.EmitDepositFormStatusChangedEventAsync(formId, brandId);
+
+		public ValueTask EmitWithdrawFormCreatedEventAsync(Guid fromId, Guid brandId)
+			=> _paymentClient.EmitWithdrawFormCreatedEventAsync(fromId, brandId);
+
+		public ValueTask EmitWithdrawFormStatusChangedEventAsync(Guid formId, Guid brandId)
+			=> _paymentClient.EmitWithdrawFormStatusChangedEventAsync(formId, brandId);
+
 		public ValueTask<string> WithdrawAsync(string subject, decimal amount, string? applyInfo)
 			=> _paymentClient.WithdrawAsync(subject, amount, applyInfo);
 	}
