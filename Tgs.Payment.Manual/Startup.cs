@@ -26,8 +26,7 @@ namespace Tgs.Payment.Manual
 
                             options.Url = config.GetValue<string>("Manual:NatsUrl");
                         })
-                        .AddProcessor<DepositProcessor>("tgs.payment.manual.deposit", "tgs.payment.manual.deposit")
-                        .ProcessAllSubjects();
+                        .AddProcessor<DepositProcessor>("tgs.payment.manual.deposit", "tgs.payment.manual.deposit");
                     //.AddProcessor<WithdrawProcessor>("tgs.payment.manual.withdraw", "tgs.payment.manual.withdraw")
                 });
         }
