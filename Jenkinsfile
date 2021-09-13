@@ -1,3 +1,5 @@
+def message = "";
+
 pipeline {
     agent any
 	
