@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tgs.Payment.Manual.MessageQueue;
+using TGS.Payment.ManualDeposit;
 
 namespace Tgs.Payment.Manual
 {
@@ -14,18 +15,20 @@ namespace Tgs.Payment.Manual
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddNatsMessageQueue(config =>
-            {
-                config
-                    .ConfigQueueOptions((options, sp) =>
-                    {
-                        var config = sp.GetRequiredService<IConfiguration>();
+            services
+                .AddSingleton<ManualDepositSerializer>()
+                .AddNatsMessageQueue(config =>
+                {
+                    config
+                        .ConfigQueueOptions((options, sp) =>
+                        {
+                            var config = sp.GetRequiredService<IConfiguration>();
 
-                        options.Url = config.GetValue<string>("Manual:NatsUrl");
-                    })
-                    .AddProcessor<DepositProcessor>("tgs.payment.manual.deposit", "tgs.payment.manual.deposit");
-                //.AddProcessor<WithdrawProcessor>("tgs.payment.manual.withdraw", "tgs.payment.manual.withdraw")
-            });
+                            options.Url = config.GetValue<string>("Manual:NatsUrl");
+                        })
+                        .AddProcessor<DepositProcessor>("tgs.payment.manual.deposit", "tgs.payment.manual.deposit");
+                    //.AddProcessor<WithdrawProcessor>("tgs.payment.manual.withdraw", "tgs.payment.manual.withdraw")
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
