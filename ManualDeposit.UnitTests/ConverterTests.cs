@@ -23,7 +23,8 @@ namespace ManualDeposit.UnitTests
                 }
             };
 
-            var actual = JsonSerializer.Deserialize<ManualDepositBankApplyInfo>(json, options);            
+            var actual = JsonSerializer.Deserialize<ManualDepositBankApplyInfo>(json, options);
+            Assert.AreEqual("Bank", actual.BankType);
         }
         [Test]
         public void Deserialize_Deposit_Third_Party_ApplyInfo_Data_Should_Success()
