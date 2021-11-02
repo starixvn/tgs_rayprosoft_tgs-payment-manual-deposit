@@ -1,7 +1,7 @@
-﻿namespace TGS.Payment.ManualDeposit
+﻿namespace Tgs.Payment.ManualDeposit
 {
-    public record ManualDepositApplyInfo(
-        string SendBankAccount,
-        string ReceiveBankAccount,
-        string ReceiveAccountName);
+    public abstract class ManualDepositApplyInfo
+    {
+        public string BankType { get; init; } = default!;
+    };
 }
