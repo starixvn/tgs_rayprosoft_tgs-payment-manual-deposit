@@ -1,8 +1,6 @@
-﻿using Tgs.Payment.ManualDeposit;
-
-namespace TGS.Payment.ManualDeposit
+﻿namespace Tgs.Payment.ManualDeposit
 {
-    public record ManualDepositBankApplyInfo(        
+    public record ManualDepositBankApplyInfo(
         string SendBankAccount,
         string ReceiveBankAccount,
         string ReceiveAccountName)
