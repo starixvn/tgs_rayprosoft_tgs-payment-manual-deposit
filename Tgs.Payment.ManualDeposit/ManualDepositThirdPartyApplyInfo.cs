@@ -1,5 +1,7 @@
 ﻿namespace Tgs.Payment.ManualDeposit
 {
-    public record ManualDepositThirdPartyApplyInfo(string QrCode)
-        : ManualDepositApplyInfo;
+    public class ManualDepositThirdPartyApplyInfo : ManualDepositApplyInfo
+    {
+        public string QrCode { get; init; } = default!;
+    }
 }

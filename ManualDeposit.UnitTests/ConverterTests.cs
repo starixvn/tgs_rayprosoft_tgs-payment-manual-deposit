@@ -11,7 +11,7 @@ namespace ManualDeposit.UnitTests
         [Test]
         public void Deserialize_Deposit_Bank_ApplyInfo_Data_Should_Success()
         {            
-            var json = "{\"sendBankAccount\":\"sendBankAccount\",\"ReceiveBankAccount\":\"brandPaymentInfo.BankAccount\",\"ReceiveAccountName\":\"brandPaymentInfo.AccountName\",\"bankType\":\"Bank\"}";
+            var json = "{\"sendBankAccount\":\"sendBankAccount\",\"ReceiveBankAccount\":\"brandPaymentInfo.BankAccount\",\"ReceiveAccountName\":\"brandPaymentInfo.AccountName\",\"bankType\":\"Bank\"}";            
 
             var options = new JsonSerializerOptions
             {
