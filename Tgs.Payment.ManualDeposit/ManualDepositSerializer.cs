@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Tgs.Payment.ManualDeposit.Converters;
 
 namespace TGS.Payment.ManualDeposit
 {
@@ -7,7 +8,10 @@ namespace TGS.Payment.ManualDeposit
         private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = false
+            WriteIndented = false,
+            Converters = {
+                new ManualDepositApplyInfoJsonConverter()
+            }
         };
 
         public string Serialize<T>(T data)
