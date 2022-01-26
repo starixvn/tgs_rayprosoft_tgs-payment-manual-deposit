@@ -5,8 +5,7 @@ pipeline {
 	
 	environment {
         BuildConfiguration="Debug"
-		ImageName="registry.gitlab.com/rayprosoft/turnkey-gaming-system/payment-manual"
-        ImageTagUrl = "https://gitlab.com/api/v4/projects/20478010/registry/repositories/2277015/tags"
+        ImageName = "harbor.rpgp.cc/tgs/payment-manual"		
 	}
 
     stages {
@@ -19,14 +18,20 @@ pipeline {
                         case ['origin/main','main']:
                             env.kube_ns = "prod";
                             env.k8s_config = 'stag-k8s-config';
+                            env.node_selector = '{ "dedicated": "prod" }';
+                            env.dedicated = '{"effect":"NoSchedule","key": "dedicated", "operator": "Equal", "value": "prod"}';
                             break;
                         case ['origin/release','release']:
                             env.kube_ns = "staging";
                             env.k8s_config = 'stag-k8s-config';
+                            env.node_selector = '{ "dedicated": "nonprod" }';
+                            env.dedicated = '{"effect":"NoSchedule","key": "dedicated", "operator": "Equal", "value": "noprod"}';
                             break;
                         default:
                             env.kube_ns = "dev";
-                            env.k8s_config = 'k8s-kube-config' 
+                            env.k8s_config = 'k8s-kube-config';
+                            env.node_selector = '{}';
+                            env.dedicated = ''; 
                             break;
                     }
                 }
@@ -95,16 +100,26 @@ pipeline {
 				withKubeConfig([credentialsId: env.k8s_config]) {
                     withCredentials([string(credentialsId: "tgs-${kube_ns}-connectionstring", variable: "tgs_tgs")]) {
                         sh '''
-                            helm template deployment/k8s/manual \
+                            cat << EOF | yq e -P | helm template deployment/k8s/manual \
+                                -n ${kube_ns} \
                                 --set image.tag=${TAG} \
-                                --set namespace=${kube_ns} \
-                                --set nats="$tgs_nats"
+                                --set nats="$tgs_nats" \
+                                -f -
+                            {
+                                "nodeSelector": $node_selector,
+                                "tolerations": [$dedicated]
+                            }
                         '''
                         sh '''
-                            helm template deployment/k8s/manual \
+                            cat << EOF | yq e -P | helm template deployment/k8s/manual \
+                                -n ${kube_ns} \
                                 --set image.tag=${TAG} \
-                                --set namespace=${kube_ns} \
-                                --set nats="$tgs_nats" | kubectl -n ${kube_ns} apply -f -
+                                --set nats="$tgs_nats" \
+                            | kubectl -n ${kube_ns} apply -f -
+                            {
+                                "nodeSelector": $node_selector,
+                                "tolerations": [$dedicated]
+                            }
                         '''
                     }
 				}
@@ -123,15 +138,7 @@ pipeline {
                     sh "git push ${GIT_URL} ${TAG} HEAD:${GIT_BRANCH}"
                 }
             }
-        }
-
-        stage('Remove Image Tags') {					
-            steps {	
-                withCredentials([string(credentialsId: "GitLabToken", variable: "GitLabToken")]) {					
-                    sh "curl --request DELETE --data \'name_regex_delete=.*\' --data \'keep_n=10\' --header \'PRIVATE-TOKEN: ${GitLabToken}\' ${ImageTagUrl}"
-                }
-            }
-        }
+        }        
 	}
 
     post {
