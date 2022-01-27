@@ -32,7 +32,8 @@
 			"launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
 			"publishAllPorts": true,
 			"useSSL": true,
-			"environmentVariables": {				
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
 				"OTEL_SERVICE_NAME": "Payment-Manual(local)",
 				"NODE_IP": "192.168.50.112"
 			}

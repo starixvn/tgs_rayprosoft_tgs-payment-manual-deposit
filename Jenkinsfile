@@ -115,6 +115,7 @@ pipeline {
                                 -n ${kube_ns} \
                                 --set image.tag=${TAG} \
                                 --set nats="$tgs_nats" \
+                                -f - \
                             | kubectl -n ${kube_ns} apply -f -
                             {
                                 "nodeSelector": $node_selector,
