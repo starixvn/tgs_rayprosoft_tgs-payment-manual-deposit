@@ -100,7 +100,7 @@ pipeline {
 			steps {
                 script {
                     withKubeConfig([credentialsId: env.k8s_config]) {
-                        def resources = getResources(env.k8s_config, env.kube_ns, "payment-help2pay")
+                        def resources = getResources(env.k8s_config, env.kube_ns, "payment-manual")
                         println resources
 
                         withCredentials([string(credentialsId: "tgs-${kube_ns}-connectionstring", variable: "tgs_tgs")]) {
