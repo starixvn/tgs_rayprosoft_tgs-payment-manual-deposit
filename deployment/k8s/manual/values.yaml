@@ -5,15 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: registry.gitlab.com/rayprosoft/turnkey-gaming-system/payment-manual
+  repository: harbor.rpgp.cc/tgs/payment-manual
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
-namespace: dev
-
 imagePullSecrets:
-  - name: registry-credentials
+  - name: secret-tgs-harbor
 nameOverride: "payment-manual"
 fullnameOverride: "payment-manual"
 
@@ -81,7 +79,7 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
