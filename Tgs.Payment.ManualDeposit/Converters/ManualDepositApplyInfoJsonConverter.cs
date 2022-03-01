@@ -26,6 +26,7 @@ namespace Tgs.Payment.ManualDeposit.Converters
             {
                 "Bank" => JsonSerializer.Deserialize<ManualDepositBankApplyInfo>(json, options),
                 "ThirdParty" => JsonSerializer.Deserialize<ManualDepositThirdPartyApplyInfo>(json, options),
+                "FPS" => JsonSerializer.Deserialize<ManualDepositFPSApplyInfo>(json, options),
                 _ => throw new NotImplementedException()
             };
         }
@@ -36,6 +37,7 @@ namespace Tgs.Payment.ManualDeposit.Converters
             {
                 ManualDepositBankApplyInfo bankApplyInfo => JsonSerializer.Serialize(bankApplyInfo, options),
                 ManualDepositThirdPartyApplyInfo thirdPartyApplyInfo => JsonSerializer.Serialize(thirdPartyApplyInfo, options),
+                ManualDepositFPSApplyInfo fpsApplyInfo => JsonSerializer.Serialize(fpsApplyInfo, options),
                 _ => throw new NotImplementedException()
             };
 
