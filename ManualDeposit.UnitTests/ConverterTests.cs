@@ -62,11 +62,11 @@ namespace ManualDeposit.UnitTests
                 }
             };
 
-            var actual = JsonSerializer.Deserialize<ManualDepositFPSApplyInfo>(json, options);
+            var actual = JsonSerializer.Deserialize<ManualDepositFpsApplyInfo>(json, options);
 
             Assert.AreEqual("FPS", actual.BankType);
             Assert.AreEqual("88888888", actual.Phone);
-            Assert.AreEqual("123456789", actual.FPSId);
+            Assert.AreEqual("123456789", actual.FpsId);
             Assert.AreEqual("https://www.thirdParty/qrCode", actual.QrCodeFileUrl);
             Assert.AreEqual("fps@test.com", actual.Email);
         }
