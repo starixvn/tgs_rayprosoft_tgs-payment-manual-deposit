@@ -63,9 +63,10 @@ builder.Services.AddProfileViewer();
 
 builder.Services
     .AddSingleton<ManualDepositSerializer>()
+    .AddMessageQueue()
     .AddNatsMessageQueue(config =>
     {
-        config
+        _ = config
             .ConfigQueueOptions((options, sp) =>
             {
                 var config = sp.GetRequiredService<IConfiguration>();
