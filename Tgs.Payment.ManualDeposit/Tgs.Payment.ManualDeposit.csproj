@@ -4,7 +4,7 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<RootNamespace>Tgs.Payment.ManualDeposit</RootNamespace>
 		<Nullable>enable</Nullable>
-		<Version>0.1.1-alpha</Version>
+		<Version>0.1.3</Version>
 		<Authors>Raypro</Authors>
 		<IsPackable>true</IsPackable>
 		<PackageProjectUrl>https://gitlab.com/rayprosoft/tgs-payment-manual-deposit</PackageProjectUrl>
@@ -14,6 +14,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Tgs.Payment.Client" Version="0.1.5" />
+	  <PackageReference Include="Tgs.Payment.Client" Version="0.4.3" />
 	</ItemGroup>
 </Project>
