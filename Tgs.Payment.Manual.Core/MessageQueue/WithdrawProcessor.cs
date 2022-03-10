@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using Tgs.MessageQueue;
@@ -18,6 +19,18 @@ namespace Tgs.Payment.Manual.MessageQueue
             };
 
             return ValueTask.FromResult(response.ToByteArray());
+        }
+
+        public ValueTask<ReadOnlyMemory<byte>> HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
+        {
+            var request = WithdrawRequest.Parser.ParseFrom(data.Span);
+
+            var response = new WithdrawResponse
+            {
+                Result = request.ApplyInfo
+            };
+
+            return ValueTask.FromResult((ReadOnlyMemory<byte>)response.ToByteArray());
         }
     }
 }
