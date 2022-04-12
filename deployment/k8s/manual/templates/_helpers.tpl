@@ -35,7 +35,6 @@ Common labels
 */}}
 {{- define "manual.labels" -}}
 {{ include "manual.selectorLabels" . }}
-tgs.kind: payment
 {{- end }}
 
 {{/*
