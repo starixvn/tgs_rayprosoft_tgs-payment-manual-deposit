@@ -8,5 +8,9 @@
         public string? FpsId { get; init; }
 
         public string? Phone { get; init; }
+
+        public string? SendBankAccount { get; init; }
+
+        public string? SendBankName { get; init; }
     }
 }
