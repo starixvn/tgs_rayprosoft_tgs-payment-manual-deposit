@@ -127,7 +127,8 @@ pipeline {
                                 --set image.tag=${TAG} \
                                 --set namespace=${kube_ns} \
                                 --set nats="$tgs_nats" \
-                                | kubectl -n ${kube_ns} apply -f -
+                                -f - \
+                            | kubectl -n ${kube_ns} apply -f -
                             {
                                 "nodeSelector": $node_selector,
                                 "tolerations": [$dedicated],

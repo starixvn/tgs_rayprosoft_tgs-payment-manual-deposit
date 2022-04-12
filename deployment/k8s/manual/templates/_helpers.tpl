@@ -43,7 +43,6 @@ Selector labels
 */}}
 {{- define "manual.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "manual.name" . }}
-tgs.kind: payment
 app: {{ include "manual.name" . }}
 {{- end }}
 
