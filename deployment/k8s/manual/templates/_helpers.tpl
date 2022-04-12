@@ -35,6 +35,7 @@ Common labels
 */}}
 {{- define "manual.labels" -}}
 {{ include "manual.selectorLabels" . }}
+tgs.kind: payment
 {{- end }}
 
 {{/*
@@ -42,7 +43,6 @@ Selector labels
 */}}
 {{- define "manual.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "manual.name" . }}
-tgs.kind: payment
 app: {{ include "manual.name" . }}
 {{- end }}
 
