@@ -43,6 +43,7 @@ Selector labels
 */}}
 {{- define "manual.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "manual.name" . }}
+app: {{ include "manual.name" . }}
 {{- end }}
 
 {{/*
