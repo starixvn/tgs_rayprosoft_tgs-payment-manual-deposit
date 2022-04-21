@@ -64,7 +64,7 @@ pipeline {
 		stage('Push packages') {
 			steps {
 				sh 'dotnet pack -c $BuildConfiguration "Tgs.Payment.ManualDeposit/Tgs.Payment.ManualDeposit.csproj" --no-build'
-				sh 'dotnet nuget push "Tgs.Payment.ManualDeposit/bin/$BuildConfiguration/*.nupkg" --source "raypro" --skip-duplicate'
+				sh 'dotnet nuget push "Tgs.Payment.ManualDeposit/bin/$BuildConfiguration/*.nupkg" -s raypro-baget -k admin --skip-duplicate'
 			}
 		}
 
@@ -76,7 +76,7 @@ pipeline {
 
 		stage('Push Docker Image') {
 			steps {
-				sh 'sudo docker push $ImageName:${TAG}'
+				sh 'docker push $ImageName:${TAG}'
 			}
 		}
 
@@ -98,38 +98,43 @@ pipeline {
 
 		stage('Deploy to k8s') {
 			steps {
-                script {
-                    withKubeConfig([credentialsId: env.k8s_config]) {
+				withKubeConfig([credentialsId: env.k8s_config]) {
+                    script {
                         def resources = getResources(env.k8s_config, env.kube_ns, "payment-manual")
-                        println resources
+                        def dedicated = getTgsSettings(env.k8s_config, env.kube_ns, "dedicated")
+                        def node_selector = getTgsSettings(env.k8s_config, env.kube_ns, "node-selector")
 
-                        withCredentials([string(credentialsId: "tgs-${kube_ns}-connectionstring", variable: "tgs_tgs")]) {
-                            sh """
-                                cat << EOF | yq e -P | helm template deployment/k8s/manual \
-                                    -n ${kube_ns} \
-                                    --set image.tag=${TAG} \
-                                    --set nats="$tgs_nats" \
-                                    -f -
-                                {
-                                    "nodeSelector": $node_selector,
-                                    "tolerations": [$dedicated],
-                                    "resources": $resources
-                                }
-                            """
-                            sh """
-                                cat << EOF | yq e -P | helm template deployment/k8s/manual \
-                                    -n ${kube_ns} \
-                                    --set image.tag=${TAG} \
-                                    --set nats="$tgs_nats" \
-                                    -f - \
-                                | kubectl -n ${kube_ns} apply -f -
-                                {
-                                    "nodeSelector": $node_selector,
-                                    "tolerations": [$dedicated],
-                                    "resources": $resources
-                                }
-                            """
-                        }
+                        println resources
+                        println dedicated
+                        println node_selector
+
+                        sh '''
+                            cat << EOF | yq e -P | helm template deployment/k8s/manual \
+                                -n ${kube_ns} \
+                                --set image.tag=${TAG} \
+                                --set namespace=${kube_ns} \
+                                --set nats="$tgs_nats" \
+                                -f -
+                            {
+                                "nodeSelector": $node_selector,
+                                "tolerations": [$dedicated],
+                                "resources": $resources
+                            }
+                        '''
+                        sh '''
+                            cat << EOF | yq e -P | helm template deployment/k8s/manual \
+                                -n ${kube_ns} \
+                                --set image.tag=${TAG} \
+                                --set namespace=${kube_ns} \
+                                --set nats="$tgs_nats" \
+                                -f - \
+                            | kubectl -n ${kube_ns} apply -f -
+                            {
+                                "nodeSelector": $node_selector,
+                                "tolerations": [$dedicated],
+                                "resources": $resources
+                            }
+                        '''
                     }
 				}
 			}
@@ -147,11 +152,14 @@ pipeline {
                     sh "git push ${GIT_URL} ${TAG} HEAD:${GIT_BRANCH}"
                 }
             }
-        }        
+        }
 	}
 
     post {
-		success {
+		always {
+            step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: false, keepLongStdio: true])
+        }
+        success {
              sendTelegram("Pipeline: ${currentBuild.fullDisplayName} OK! ${message} \n${currentBuild.getBuildCauses()[0].shortDescription}\n")
         }
         failure {

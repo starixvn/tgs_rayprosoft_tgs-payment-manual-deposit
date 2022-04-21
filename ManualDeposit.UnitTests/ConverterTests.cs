@@ -50,7 +50,7 @@ namespace ManualDeposit.UnitTests
         [Test]
         public void Deserialize_Deposit_FPS_ApplyInfo_Data_Should_Success()
         {
-            var json = "{\"qrCodeFileUrl\":\"https://www.thirdParty/qrCode\",\"bankType\":\"FPS\",\"phone\":\"88888888\",\"fpsId\":\"123456789\",\"email\":\"fps@test.com\"}";
+            var json = "{\"qrCodeFileUrl\":\"https://www.thirdParty/qrCode\",\"bankType\":\"FPS\",\"phone\":\"88888888\",\"fpsId\":\"123456789\",\"email\":\"fps@test.com\",\"sendBankAccount\":\"1688888888\",\"sendBankName\":\"bankName\"}";
 
             var options = new JsonSerializerOptions
             {
@@ -69,6 +69,8 @@ namespace ManualDeposit.UnitTests
             Assert.AreEqual("123456789", actual.FpsId);
             Assert.AreEqual("https://www.thirdParty/qrCode", actual.QrCodeFileUrl);
             Assert.AreEqual("fps@test.com", actual.Email);
+            Assert.AreEqual("1688888888", actual.SendBankAccount);
+            Assert.AreEqual("bankName", actual.SendBankName);
         }
     }
 }

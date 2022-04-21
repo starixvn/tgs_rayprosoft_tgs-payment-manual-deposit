@@ -5,7 +5,7 @@ namespace TGS.Payment.ManualDeposit
 {
     public class ManualDepositSerializer
     {
-        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = false,
