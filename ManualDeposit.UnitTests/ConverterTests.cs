@@ -72,5 +72,27 @@ namespace ManualDeposit.UnitTests
             Assert.AreEqual("1688888888", actual.SendBankAccount);
             Assert.AreEqual("bankName", actual.SendBankName);
         }
+
+        [Test]
+        public void Deserialize_Deposit_Usdt_ApplyInfo_Data_Should_Success()
+        {
+            var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"bankType\":\"Usdt\",\"address\":\"TCKCX5Khy9V96qvD5T5K8c6bzWXzMkawbw\"}";
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = false,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+                Converters = {
+                    new ManualDepositApplyInfoJsonConverter()
+                }
+            };
+
+            var actual = JsonSerializer.Deserialize<ManualDepositUsdtApplyInfo>(json, options);
+
+            Assert.AreEqual("Usdt", actual.BankType);
+            Assert.AreEqual("TCKCX5Khy9V96qvD5T5K8c6bzWXzMkawbw", actual.Address);
+            Assert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
+        }
     }
 }
