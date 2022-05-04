@@ -76,7 +76,7 @@ namespace ManualDeposit.UnitTests
         [Test]
         public void Deserialize_Deposit_Usdt_ApplyInfo_Data_Should_Success()
         {
-            var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"bankType\":\"Usdt\",\"address\":\"TCKCX5Khy9V96qvD5T5K8c6bzWXzMkawbw\"}";
+            var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"bankType\":\"Usdt\",\"address\":\"TCKCX5Khy9V96qvD5T5K8c6bzWXzMkawbw\",\"rate\":1.68}";
 
             var options = new JsonSerializerOptions
             {
@@ -93,6 +93,7 @@ namespace ManualDeposit.UnitTests
             Assert.AreEqual("Usdt", actual.BankType);
             Assert.AreEqual("TCKCX5Khy9V96qvD5T5K8c6bzWXzMkawbw", actual.Address);
             Assert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
+            Assert.AreEqual(1.68m, actual.Rate);
         }
     }
 }
