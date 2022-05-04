@@ -2,6 +2,8 @@
 {
     public class ManualDepositUsdtApplyInfo : ManualDepositApplyInfo
     {
+        public decimal SendAmount { get; init; }
+
         public string Address { get; init; } = default!;
 
         public string? QrCode { get; init; }
