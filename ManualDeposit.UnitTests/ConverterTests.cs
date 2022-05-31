@@ -96,5 +96,28 @@ namespace ManualDeposit.UnitTests
             Assert.AreEqual(168m, actual.Rate);
             Assert.AreEqual(1680m, actual.SendAmount);
         }
+
+        [Test]
+        public void Deserialize_Deposit_EWallet_ApplyInfo_Data_Should_Success()
+        {
+            var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"eMoneyName\":\"TestEMoneyName\",\"phone\":\"11223344\",\"bankType\":\"EWallet\"}";
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = false,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+                Converters = {
+                    new ManualDepositApplyInfoJsonConverter()
+                }
+            };
+
+            var actual = JsonSerializer.Deserialize<ManualDepositEWalletApplyInfo>(json, options);
+
+            Assert.AreEqual("EWallet", actual.BankType);
+            Assert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
+            Assert.AreEqual("TestEMoneyName", actual.EMoneyName);
+            Assert.AreEqual("11223344", actual.Phone);
+        }
     }
 }
