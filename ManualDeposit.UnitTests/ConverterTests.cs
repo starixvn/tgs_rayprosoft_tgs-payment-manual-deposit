@@ -100,7 +100,7 @@ namespace ManualDeposit.UnitTests
         [Test]
         public void Deserialize_Deposit_EWallet_ApplyInfo_Data_Should_Success()
         {
-            var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"eMoneyName\":\"TestEMoneyName\",\"phone\":\"11223344\",\"bankType\":\"EWallet\"}";
+            var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"eMoneyName\":\"TestEMoneyName\",\"phone\":\"11223344\",\"sendNote\":\"testPlayerNote\",\"bankType\":\"EWallet\"}";
 
             var options = new JsonSerializerOptions
             {
@@ -117,12 +117,14 @@ namespace ManualDeposit.UnitTests
             Assert.AreEqual("EWallet", actual.BankType);
             Assert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
             Assert.AreEqual("TestEMoneyName", actual.EMoneyName);
+            Assert.AreEqual("testPlayerNote", actual.SendNote);
             Assert.AreEqual("11223344", actual.Phone);
         }
+
         [Test]
         public void Deserialize_Deposit_Pulsa_ApplyInfo_Data_Should_Success()
         {
-            var json = "{\"phone\":\"11223344\",\"bankType\":\"Pulsa\"}";
+            var json = "{\"phone\":\"11223344\",\"sendNote\":\"testPlayerNote\",\"bankType\":\"Pulsa\"}";
 
             var options = new JsonSerializerOptions
             {
@@ -136,8 +138,9 @@ namespace ManualDeposit.UnitTests
 
             var actual = JsonSerializer.Deserialize<ManualDepositPulsaApplyInfo>(json, options);
 
-            Assert.AreEqual("Pulsa", actual.BankType);            
+            Assert.AreEqual("Pulsa", actual.BankType);
             Assert.AreEqual("11223344", actual.Phone);
+            Assert.AreEqual("testPlayerNote", actual.SendNote);
         }
     }
 }

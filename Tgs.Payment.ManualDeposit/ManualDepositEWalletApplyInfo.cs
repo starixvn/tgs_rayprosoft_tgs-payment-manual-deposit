@@ -7,5 +7,7 @@
         public string? QrCode { get; init; }
 
         public string Phone { get; init; } = default!;
+
+        public string? SendNote { get; init; }
     }
 }
