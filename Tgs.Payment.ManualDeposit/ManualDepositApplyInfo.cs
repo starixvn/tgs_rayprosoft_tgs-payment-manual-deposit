@@ -1,7 +1,6 @@
-﻿namespace Tgs.Payment.ManualDeposit
+﻿namespace Tgs.Payment.ManualDeposit;
+
+public abstract class ManualDepositApplyInfo
 {
-    public abstract class ManualDepositApplyInfo
-    {
-        public string BankType { get; init; } = default!;
-    };
-}
+    public string BankType { get; init; } = default!;
+};
