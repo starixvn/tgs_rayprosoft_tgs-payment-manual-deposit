@@ -1,13 +1,12 @@
-﻿namespace Tgs.Payment.ManualDeposit
+﻿namespace Tgs.Payment.ManualDeposit;
+
+public class ManualDepositEWalletApplyInfo : ManualDepositApplyInfo
 {
-    public class ManualDepositEWalletApplyInfo : ManualDepositApplyInfo
-    {
-        public string EMoneyName { get; init; } = default!;
+    public string EMoneyName { get; init; } = default!;
 
-        public string? QrCode { get; init; }
+    public string? QrCode { get; init; }
 
-        public string Phone { get; init; } = default!;
+    public string Phone { get; init; } = default!;
 
-        public string? SendNote { get; init; }
-    }
+    public string? SendNote { get; init; }
 }

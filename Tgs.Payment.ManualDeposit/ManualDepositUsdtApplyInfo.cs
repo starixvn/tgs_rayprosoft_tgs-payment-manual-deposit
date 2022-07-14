@@ -1,13 +1,12 @@
-﻿namespace Tgs.Payment.ManualDeposit
+﻿namespace Tgs.Payment.ManualDeposit;
+
+public class ManualDepositUsdtApplyInfo : ManualDepositApplyInfo
 {
-    public class ManualDepositUsdtApplyInfo : ManualDepositApplyInfo
-    {
-        public decimal SendAmount { get; init; }
+    public decimal SendAmount { get; init; }
 
-        public string Address { get; init; } = default!;
+    public string Address { get; init; } = default!;
 
-        public string? QrCode { get; init; }
+    public string? QrCode { get; init; }
 
-        public decimal Rate { get; init; } = 1;
-    }
+    public decimal Rate { get; init; } = 1;
 }

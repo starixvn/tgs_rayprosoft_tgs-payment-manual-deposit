@@ -1,4 +1,3 @@
-﻿namespace Tgs.Payment.ManualDeposit
-{
-    public record ManualWithdrawApplyInfo();
-}
+﻿namespace Tgs.Payment.ManualDeposit;
+
+public record ManualWithdrawApplyInfo();
