@@ -5,32 +5,31 @@ using Google.Protobuf;
 using Tgs.MessageQueue;
 using Tgs.Payment.Protos;
 
-namespace Tgs.Payment.Manual.MessageQueue
+namespace Tgs.Payment.Manual.MessageQueue;
+
+public class WithdrawProcessor : IMessageProcessor
 {
-    public class WithdrawProcessor : IMessageProcessor
+    public ValueTask<byte[]> HandleAsync(byte[] data, CancellationToken cancellationToken = default)
     {
-        public ValueTask<byte[]> HandleAsync(byte[] data, CancellationToken cancellationToken = default)
+        var request = WithdrawRequest.Parser.ParseFrom(data);
+
+        var response = new WithdrawResponse
         {
-            var request = WithdrawRequest.Parser.ParseFrom(data);
+            Result = request.ApplyInfo
+        };
 
-            var response = new WithdrawResponse
-            {
-                Result = request.ApplyInfo
-            };
+        return ValueTask.FromResult(response.ToByteArray());
+    }
 
-            return ValueTask.FromResult(response.ToByteArray());
-        }
+    public ValueTask<ReadOnlyMemory<byte>> HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
+    {
+        var request = WithdrawRequest.Parser.ParseFrom(data.Span);
 
-        public ValueTask<ReadOnlyMemory<byte>> HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
+        var response = new WithdrawResponse
         {
-            var request = WithdrawRequest.Parser.ParseFrom(data.Span);
+            Result = request.ApplyInfo
+        };
 
-            var response = new WithdrawResponse
-            {
-                Result = request.ApplyInfo
-            };
-
-            return ValueTask.FromResult((ReadOnlyMemory<byte>)response.ToByteArray());
-        }
+        return ValueTask.FromResult((ReadOnlyMemory<byte>)response.ToByteArray());
     }
 }

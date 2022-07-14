@@ -1,9 +1,8 @@
-﻿namespace Tgs.Payment.ManualDeposit
-{
-    public class ManualDepositPulsaApplyInfo : ManualDepositApplyInfo
-    {
-        public string Phone { get; init; } = default!;
+﻿namespace Tgs.Payment.ManualDeposit;
 
-        public string? SendNote { get; init; }
-    }
+public class ManualDepositPulsaApplyInfo : ManualDepositApplyInfo
+{
+    public string Phone { get; init; } = default!;
+
+    public string? SendNote { get; init; }
 }

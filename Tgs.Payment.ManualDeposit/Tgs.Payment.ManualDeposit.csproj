@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<RootNamespace>Tgs.Payment.ManualDeposit</RootNamespace>
 		<Nullable>enable</Nullable>
 		<Version>0.1.11</Version>
@@ -14,6 +14,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Tgs.Payment.Client" Version="0.4.3" />
+	  <PackageReference Include="Tgs.Payment.Client" Version="0.4.6" />
 	</ItemGroup>
 </Project>
