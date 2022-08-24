@@ -101,7 +101,7 @@ public class ConverterTests
     [Test]
     public void Deserialize_Deposit_EWallet_ApplyInfo_Data_Should_Success()
     {
-        var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"eMoneyName\":\"TestEMoneyName\",\"phone\":\"11223344\",\"sendNote\":\"testPlayerNote\",\"bankType\":\"EWallet\"}";
+        var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"eMoneyName\":\"TestEMoneyName\",\"phone\":\"11223344\",\"sendNote\":\"testPlayerNote\",\"sendEMoneyName\":\"testPlayerEMoneyName\",\"bankType\":\"EWallet\"}";
 
         var options = new JsonSerializerOptions
         {
@@ -120,6 +120,7 @@ public class ConverterTests
         Assert.AreEqual("TestEMoneyName", actual.EMoneyName);
         Assert.AreEqual("testPlayerNote", actual.SendNote);
         Assert.AreEqual("11223344", actual.Phone);
+        Assert.AreEqual("testPlayerEMoneyName", actual.SendEMoneyName);
     }
 
     [Test]
