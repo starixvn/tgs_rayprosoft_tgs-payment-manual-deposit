@@ -11,4 +11,6 @@ public class ManualDepositEWalletApplyInfo : ManualDepositApplyInfo
     public string? SendNote { get; init; }
 
     public string? SendEMoneyName { get; init; }
+
+    public string? SendPhone { get; init; }
 }

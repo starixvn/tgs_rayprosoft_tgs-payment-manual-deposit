@@ -8,6 +8,8 @@ public class ManualDepositBankApplyInfo : ManualDepositApplyInfo
 
     public string? SendNote { get; init; }
 
+    public string? SendName { get; init; }
+
     public string ReceiveBankAccount { get; init; } = default!;
 
     public string ReceiveAccountName { get; init; } = default!;

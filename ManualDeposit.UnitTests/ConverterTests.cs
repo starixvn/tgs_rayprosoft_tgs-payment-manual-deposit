@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using NUnit.Framework;
 using Tgs.Payment.ManualDeposit;
@@ -11,7 +11,7 @@ public class ConverterTests
     [Test]
     public void Deserialize_Deposit_Bank_ApplyInfo_Data_Should_Success()
     {
-        var json = "{\"sendBankAccount\":\"sendBankAccount\",\"sendNote\":\"sendNote\",\"ReceiveBankAccount\":\"brandPaymentInfo.BankAccount\",\"ReceiveAccountName\":\"brandPaymentInfo.AccountName\",\"bankType\":\"Bank\"}";
+        var json = "{\"sendBankAccount\":\"sendBankAccount\",\"sendName\":\"sendName\",\"sendNote\":\"sendNote\",\"ReceiveBankAccount\":\"brandPaymentInfo.BankAccount\",\"ReceiveAccountName\":\"brandPaymentInfo.AccountName\",\"bankType\":\"Bank\"}";
 
         var options = new JsonSerializerOptions
         {
@@ -26,6 +26,7 @@ public class ConverterTests
         var actual = JsonSerializer.Deserialize<ManualDepositBankApplyInfo>(json, options);
         Assert.AreEqual("Bank", actual.BankType);
         Assert.AreEqual("sendNote", actual.SendNote);
+        Assert.AreEqual("sendName", actual.SendName);
     }
 
     [Test]
@@ -101,7 +102,7 @@ public class ConverterTests
     [Test]
     public void Deserialize_Deposit_EWallet_ApplyInfo_Data_Should_Success()
     {
-        var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"eMoneyName\":\"TestEMoneyName\",\"phone\":\"11223344\",\"sendNote\":\"testPlayerNote\",\"sendEMoneyName\":\"testPlayerEMoneyName\",\"bankType\":\"EWallet\"}";
+        var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"eMoneyName\":\"TestEMoneyName\",\"phone\":\"11223344\",\"sendNote\":\"testPlayerNote\",\"sendPhone\":\"111666888\",\"sendEMoneyName\":\"testPlayerEMoneyName\",\"bankType\":\"EWallet\"}";
 
         var options = new JsonSerializerOptions
         {
@@ -121,12 +122,13 @@ public class ConverterTests
         Assert.AreEqual("testPlayerNote", actual.SendNote);
         Assert.AreEqual("11223344", actual.Phone);
         Assert.AreEqual("testPlayerEMoneyName", actual.SendEMoneyName);
+        Assert.AreEqual("111666888", actual.SendPhone);
     }
 
     [Test]
     public void Deserialize_Deposit_Pulsa_ApplyInfo_Data_Should_Success()
     {
-        var json = "{\"phone\":\"11223344\",\"sendNote\":\"testPlayerNote\",\"bankType\":\"Pulsa\"}";
+        var json = "{\"phone\":\"11223344\",\"sendNote\":\"testPlayerNote\",\"sendName\":\"testRealName\",\"sendPhone\":\"222333555\",\"bankType\":\"Pulsa\"}";
 
         var options = new JsonSerializerOptions
         {
@@ -143,5 +145,7 @@ public class ConverterTests
         Assert.AreEqual("Pulsa", actual.BankType);
         Assert.AreEqual("11223344", actual.Phone);
         Assert.AreEqual("testPlayerNote", actual.SendNote);
+        Assert.AreEqual("testRealName", actual.SendName);
+        Assert.AreEqual("222333555", actual.SendPhone);
     }
 }
