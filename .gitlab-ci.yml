@@ -21,7 +21,7 @@ build-code:
   extends: .build-code-template
 
 unit-test:
-  extends: .build-code-template
+  extends: .unit-test-template
 
 push-nuget:
   stage: publish
