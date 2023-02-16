@@ -5,7 +5,7 @@ include:
 
 variables:
   ImageName: pgtgs/payment-manualpay
-  TgsSettingKey: payment-manualpay
+  TgsSettingKey: payment-manual
   BuildCacheKey: Tgs.Payment.ManualDeposit.$CI_PIPELINE_IID
   HelmTemplateFolderName: manual
 
