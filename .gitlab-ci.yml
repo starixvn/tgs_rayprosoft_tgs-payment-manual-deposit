@@ -30,6 +30,10 @@ push-nuget:
     - unit-test
   only:
     - main
+  cache:
+    key: $BuildCacheKey
+    untracked: true
+    policy: pull
   script:
     - dotnet pack -c $BuildConfiguration "Tgs.Payment.ManualDeposit/Tgs.Payment.ManualDeposit.csproj" --no-build --no-restore
     - dotnet nuget push "Tgs.Payment.ManualDeposit/bin/$BuildConfiguration/*.nupkg" -s "raypro-baget" -k $NugetApiKey --skip-duplicate
