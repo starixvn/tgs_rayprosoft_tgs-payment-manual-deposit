@@ -148,4 +148,29 @@ public class ConverterTests
         Assert.AreEqual("testRealName", actual.SendName);
         Assert.AreEqual("222333555", actual.SendPhone);
     }
+
+    [Test]
+    public void Deserialize_Deposit_Coinsph_ApplyInfo_Data_Should_Success()
+    {
+        var json = "{\"qrCode\":\"https://www.test.com/qrCode\",\"name\":\"TestName\",\"phone\":\"11223344\",\"sendPhone\":\"111666888\",\"sendName\":\"testPlayerName\",\"bankType\":\"Coinsph\"}";
+
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = false,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+            Converters = {
+                new ManualDepositApplyInfoJsonConverter()
+            }
+        };
+
+        var actual = JsonSerializer.Deserialize<ManualDepositCoinsphApplyInfo>(json, options);
+
+        Assert.AreEqual("Coinsph", actual.BankType);
+        Assert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
+        Assert.AreEqual("TestName", actual.Name);        
+        Assert.AreEqual("11223344", actual.Phone);
+        Assert.AreEqual("testPlayerName", actual.SendName);
+        Assert.AreEqual("111666888", actual.SendPhone);
+    }
 }

@@ -30,6 +30,7 @@ public class ManualDepositApplyInfoJsonConverter : JsonConverter<ManualDepositAp
             "FPS" => JsonSerializer.Deserialize<ManualDepositFpsApplyInfo>(json, options),
             "EWallet" => JsonSerializer.Deserialize<ManualDepositEWalletApplyInfo>(json, options),
             "Pulsa" => JsonSerializer.Deserialize<ManualDepositPulsaApplyInfo>(json, options),
+            "Coinsph" => JsonSerializer.Deserialize<ManualDepositCoinsphApplyInfo>(json, options),
             _ => throw new NotImplementedException()
         };
     }
@@ -44,6 +45,7 @@ public class ManualDepositApplyInfoJsonConverter : JsonConverter<ManualDepositAp
             ManualDepositFpsApplyInfo fpsApplyInfo => JsonSerializer.Serialize(fpsApplyInfo, options),
             ManualDepositEWalletApplyInfo eWalletApplyInfo => JsonSerializer.Serialize(eWalletApplyInfo, options),
             ManualDepositPulsaApplyInfo pulsaApplyInfo => JsonSerializer.Serialize(pulsaApplyInfo, options),
+            ManualDepositCoinsphApplyInfo coinsphApplyInfo => JsonSerializer.Serialize(coinsphApplyInfo, options),
             _ => throw new NotImplementedException()
         };
 
