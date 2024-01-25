@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<RootNamespace>Tgs.Payment.ManualDeposit</RootNamespace>
 		<Nullable>enable</Nullable>
-		<Version>0.1.14</Version>
+		<Version>0.2.0</Version>
 		<Authors>Raypro</Authors>
 		<IsPackable>true</IsPackable>
 		<PackageProjectUrl>https://gitlab.com/rayprosoft/tgs-payment-manual-deposit</PackageProjectUrl>
@@ -14,6 +14,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Tgs.Payment.Client" Version="0.4.6" />
+	  <PackageReference Include="Tgs.Payment.Client" Version="0.6.1" />
 	</ItemGroup>
 </Project>

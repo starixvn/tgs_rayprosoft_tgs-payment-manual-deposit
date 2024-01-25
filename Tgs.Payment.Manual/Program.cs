@@ -1,16 +1,13 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.HttpLogging;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Instrumentation.AspNetCore;
+using NATS.Client.Core;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Tgs.Payment.Manual.MessageQueue;
 using TGS.Payment.ManualDeposit;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Configuration.AddJsonFile("/config/appsettings.json", true);
 
 builder.Logging
     .AddOpenTelemetry(options =>
@@ -34,62 +31,43 @@ builder.Services
         logging.MediaTypeOptions.AddText("text/html");
     });
 
-builder.Services.AddHealthChecks();
-
 builder.Services
-    .AddOptions<OtlpExporterOptions>()
-    .Configure<IConfiguration>((options, conifg) =>
-    {
-        var nodeIp = conifg.GetValue<string>("NODE_IP");
+    .AddHealthChecks();
 
-        if (!string.IsNullOrWhiteSpace(nodeIp))
-            options.Endpoint = new Uri($"http://{nodeIp}:4317");
-
-        conifg.GetSection("Opentelemetry:Tracing").Bind(options);
-    });
-
-builder.Services.AddOpenTelemetryTracing(builder =>
-{
-    builder
+var excludeExtensions = new[] { "html", "ico", "png", "jpg" };
+builder.Services
+    .AddOpenTelemetry()
+    .WithTracing(builder => builder
         .SetResourceBuilder(ResourceBuilder.CreateDefault()
         .AddEnvironmentVariableDetector())
         .AddSource("Tgs.*")
-        .AddAspNetCoreInstrumentation()
+        .AddSource("Valhalla.*")
+        .AddAspNetCoreInstrumentation(options => options.Filter =
+            httpContext => !httpContext.Request.Path.HasValue
+                || !httpContext.Request.Path.StartsWithSegments("/swagger")
+                && !httpContext.Request.Path.StartsWithSegments("/healthz")
+                && !httpContext.Request.Path.StartsWithSegments("/profiler/")
+                && !excludeExtensions.Any(
+                    ext => httpContext.Request.Path.Value.EndsWith($".{ext}")))
         .AddHttpClientInstrumentation()
         .AddProfileViewExporter()
-        .AddOtlpExporter();
-});
-
-builder.Services.Configure<AspNetCoreInstrumentationOptions>(options =>
-{
-    options.Filter = httpContext =>
-    {
-        return !httpContext.Request.Path.HasValue
-            || !httpContext.Request.Path.StartsWithSegments("/swagger")
-            && !httpContext.Request.Path.StartsWithSegments("/healthz")
-            && !httpContext.Request.Path.StartsWithSegments("/profiler/")
-            && !new[] { "html", "ico", "png", "jpg" }.Any(
-                ext => httpContext.Request.Path.Value.EndsWith($".{ext}"));
-    };
-});
-
-builder.Services.AddProfileViewer();
+        .AddOtlpExporter())
+    .Services
+    .AddProfileViewer();
 
 builder.Services
     .AddSingleton<ManualDepositSerializer>()
+    .AddKeyedSingleton(
+        "Nats",
+        (sp, _) => new NatsConnection(NatsOpts.Default with
+        {
+            Url = builder.Configuration.GetValue<string>("Manual:NatsUrl")
+        }))
     .AddMessageQueue()
-    .AddNatsMessageQueue(config =>
-    {
-        _ = config
-            .ConfigQueueOptions((options, sp) =>
-            {
-                var config = sp.GetRequiredService<IConfiguration>();
-
-                options.Url = config.GetValue<string>("Manual:NatsUrl");
-            })
-            .AddProcessor<DepositProcessor>("tgs.payment.manual.deposit", "tgs.payment.manual.deposit")
-            .AddProcessor<WithdrawProcessor>("tgs.payment.manual.withdraw", "tgs.payment.manual.withdraw");
-    });
+    .AddNatsMessageQueue(config => config
+        .ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
+        .AddProcessor<DepositProcessor>("tgs.payment.manual.deposit", "tgs.payment.manual.deposit")
+        .AddProcessor<WithdrawProcessor>("tgs.payment.manual.withdraw", "tgs.payment.manual.withdraw"));
 
 builder.Services
     .AddControllers()
