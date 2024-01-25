@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Tgs.Payment.ManualDeposit;
 using Tgs.Payment.ManualDeposit.Converters;
 
@@ -24,9 +25,9 @@ public class ConverterTests
         };
 
         var actual = JsonSerializer.Deserialize<ManualDepositBankApplyInfo>(json, options);
-        Assert.AreEqual("Bank", actual.BankType);
-        Assert.AreEqual("sendNote", actual.SendNote);
-        Assert.AreEqual("sendName", actual.SendName);
+        ClassicAssert.AreEqual("Bank", actual.BankType);
+        ClassicAssert.AreEqual("sendNote", actual.SendNote);
+        ClassicAssert.AreEqual("sendName", actual.SendName);
     }
 
     [Test]
@@ -46,7 +47,7 @@ public class ConverterTests
 
         var actual = JsonSerializer.Deserialize<ManualDepositThirdPartyApplyInfo>(json, options);
 
-        Assert.AreEqual("ThirdParty", actual.BankType);
+        ClassicAssert.AreEqual("ThirdParty", actual.BankType);
     }
 
     [Test]
@@ -66,13 +67,13 @@ public class ConverterTests
 
         var actual = JsonSerializer.Deserialize<ManualDepositFpsApplyInfo>(json, options);
 
-        Assert.AreEqual("FPS", actual.BankType);
-        Assert.AreEqual("88888888", actual.Phone);
-        Assert.AreEqual("123456789", actual.FpsId);
-        Assert.AreEqual("https://www.thirdParty/qrCode", actual.QrCodeFileUrl);
-        Assert.AreEqual("fps@test.com", actual.Email);
-        Assert.AreEqual("1688888888", actual.SendBankAccount);
-        Assert.AreEqual("bankName", actual.SendBankName);
+        ClassicAssert.AreEqual("FPS", actual.BankType);
+        ClassicAssert.AreEqual("88888888", actual.Phone);
+        ClassicAssert.AreEqual("123456789", actual.FpsId);
+        ClassicAssert.AreEqual("https://www.thirdParty/qrCode", actual.QrCodeFileUrl);
+        ClassicAssert.AreEqual("fps@test.com", actual.Email);
+        ClassicAssert.AreEqual("1688888888", actual.SendBankAccount);
+        ClassicAssert.AreEqual("bankName", actual.SendBankName);
     }
 
     [Test]
@@ -92,11 +93,11 @@ public class ConverterTests
 
         var actual = JsonSerializer.Deserialize<ManualDepositUsdtApplyInfo>(json, options);
 
-        Assert.AreEqual("Usdt", actual.BankType);
-        Assert.AreEqual("TCKCX5Khy9V96qvD5T5K8c6bzWXzMkawbw", actual.Address);
-        Assert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
-        Assert.AreEqual(168m, actual.Rate);
-        Assert.AreEqual(1680m, actual.SendAmount);
+        ClassicAssert.AreEqual("Usdt", actual.BankType);
+        ClassicAssert.AreEqual("TCKCX5Khy9V96qvD5T5K8c6bzWXzMkawbw", actual.Address);
+        ClassicAssert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
+        ClassicAssert.AreEqual(168m, actual.Rate);
+        ClassicAssert.AreEqual(1680m, actual.SendAmount);
     }
 
     [Test]
@@ -116,13 +117,13 @@ public class ConverterTests
 
         var actual = JsonSerializer.Deserialize<ManualDepositEWalletApplyInfo>(json, options);
 
-        Assert.AreEqual("EWallet", actual.BankType);
-        Assert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
-        Assert.AreEqual("TestEMoneyName", actual.EMoneyName);
-        Assert.AreEqual("testPlayerNote", actual.SendNote);
-        Assert.AreEqual("11223344", actual.Phone);
-        Assert.AreEqual("testPlayerEMoneyName", actual.SendEMoneyName);
-        Assert.AreEqual("111666888", actual.SendPhone);
+        ClassicAssert.AreEqual("EWallet", actual.BankType);
+        ClassicAssert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
+        ClassicAssert.AreEqual("TestEMoneyName", actual.EMoneyName);
+        ClassicAssert.AreEqual("testPlayerNote", actual.SendNote);
+        ClassicAssert.AreEqual("11223344", actual.Phone);
+        ClassicAssert.AreEqual("testPlayerEMoneyName", actual.SendEMoneyName);
+        ClassicAssert.AreEqual("111666888", actual.SendPhone);
     }
 
     [Test]
@@ -142,11 +143,11 @@ public class ConverterTests
 
         var actual = JsonSerializer.Deserialize<ManualDepositPulsaApplyInfo>(json, options);
 
-        Assert.AreEqual("Pulsa", actual.BankType);
-        Assert.AreEqual("11223344", actual.Phone);
-        Assert.AreEqual("testPlayerNote", actual.SendNote);
-        Assert.AreEqual("testRealName", actual.SendName);
-        Assert.AreEqual("222333555", actual.SendPhone);
+        ClassicAssert.AreEqual("Pulsa", actual.BankType);
+        ClassicAssert.AreEqual("11223344", actual.Phone);
+        ClassicAssert.AreEqual("testPlayerNote", actual.SendNote);
+        ClassicAssert.AreEqual("testRealName", actual.SendName);
+        ClassicAssert.AreEqual("222333555", actual.SendPhone);
     }
 
     [Test]
@@ -166,11 +167,11 @@ public class ConverterTests
 
         var actual = JsonSerializer.Deserialize<ManualDepositCoinsphApplyInfo>(json, options);
 
-        Assert.AreEqual("Coinsph", actual.BankType);
-        Assert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
-        Assert.AreEqual("TestName", actual.Name);        
-        Assert.AreEqual("11223344", actual.Phone);
-        Assert.AreEqual("testPlayerName", actual.SendName);
-        Assert.AreEqual("111666888", actual.SendPhone);
+        ClassicAssert.AreEqual("Coinsph", actual.BankType);
+        ClassicAssert.AreEqual("https://www.test.com/qrCode", actual.QrCode);
+        ClassicAssert.AreEqual("TestName", actual.Name);
+        ClassicAssert.AreEqual("11223344", actual.Phone);
+        ClassicAssert.AreEqual("testPlayerName", actual.SendName);
+        ClassicAssert.AreEqual("111666888", actual.SendPhone);
     }
 }

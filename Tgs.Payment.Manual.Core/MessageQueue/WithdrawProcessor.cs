@@ -1,27 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf;
-using Tgs.MessageQueue;
 using Tgs.Payment.Protos;
+using Valhalla.MessageQueue;
 
 namespace Tgs.Payment.Manual.MessageQueue;
 
-public class WithdrawProcessor : IMessageProcessor
+public class WithdrawProcessor : IMessageProcessor<ReadOnlyMemory<byte>, ReadOnlyMemory<byte>>
 {
-    public ValueTask<byte[]> HandleAsync(byte[] data, CancellationToken cancellationToken = default)
-    {
-        var request = WithdrawRequest.Parser.ParseFrom(data);
-
-        var response = new WithdrawResponse
-        {
-            Result = request.ApplyInfo
-        };
-
-        return ValueTask.FromResult(response.ToByteArray());
-    }
-
-    public ValueTask<ReadOnlyMemory<byte>> HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
+    public ValueTask<ReadOnlyMemory<byte>> HandleAsync(
+        string subject,
+        ReadOnlyMemory<byte> data,
+        IEnumerable<MessageHeaderValue>? headerValues,
+        CancellationToken cancellationToken = default)
     {
         var request = WithdrawRequest.Parser.ParseFrom(data.Span);
 

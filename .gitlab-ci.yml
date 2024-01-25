@@ -24,30 +24,17 @@ unit-test:
   extends: .unit-test-template
 
 push-nuget:
-  stage: publish
-  needs:
-    - build-code      
-    - unit-test
-  only:
-    - main
-  cache:
-    key: $BuildCacheKey
-    untracked: true
-    policy: pull
+  extends: .push-nuget-template
   script:
-    - dotnet pack -c $BuildConfiguration "Tgs.Payment.ManualDeposit/Tgs.Payment.ManualDeposit.csproj" --no-build --no-restore
-    - dotnet nuget push "Tgs.Payment.ManualDeposit/bin/$BuildConfiguration/*.nupkg" -s "raypro-baget" -k $NugetApiKey --skip-duplicate
+    - push_package 'Tgs.Payment.ManualDeposit'
   artifacts:
-    name: Nuget
-    untracked: false
-    expire_in: "30 days"
     paths:
       - Tgs.Payment.ManualDeposit/bin/$BuildConfiguration/*.nupkg
 
 push-docker-image:
   extends: .push-docker-image-template
-  variables:
-    project: Tgs.Payment.Manual/Tgs.Payment.Manual.csproj
+  script:
+    - push_docker 'Tgs.Payment.Manual' $ImageName $Tag
 
 push-k8s-template:
   extends: .push-k8s-template
