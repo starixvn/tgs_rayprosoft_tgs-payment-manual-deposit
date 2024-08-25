@@ -10,6 +10,8 @@ using TGS.Payment.ManualDeposit;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseSentry();
+
 builder.Logging
     .AddOpenTelemetry(options =>
     {
@@ -95,5 +97,7 @@ app.UseRouting();
 app.MapHealthChecks("/healthz");
 
 app.MapProfileViewer();
+
+SentrySdk.CaptureMessage($"Started result Tgs.Payment.ManualDeposit service at {DateTime.Now.ToString()}");
 
 app.Run();
